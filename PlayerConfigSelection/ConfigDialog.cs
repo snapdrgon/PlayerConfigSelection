@@ -97,6 +97,11 @@ namespace PlayerConfigSelection
                         Name = (string)this.checkedListBox1.Items[i]
                     });
             }
+            foreach (var character in cs.CharacterDictionary)
+            {
+                Utilities.Utilities.log.Info($"{character.Key} {character.Value.Name} {character.Value.Hide}");
+            }
+           
             cs.UpdateFileExtension(); 
         }
 

@@ -68,6 +68,7 @@ namespace PlayerConfigSelection
 
         public bool UpdateFileExtension()
         {
+            Utilities.Utilities.log.Info("Entering UpdateFileExtension()");
             bool _return = false;
             var fileList = DirectoryList;
             fileList = fileList.ConvertAll(x => x.ToUpper());//set upper case
@@ -103,8 +104,9 @@ namespace PlayerConfigSelection
                                 {
                                     File.Move(fileNotUpperCase, Path.ChangeExtension(fileNotUpperCase, null));
                                 }
-                                catch (Exception)
+                                catch (Exception e)
                                 {
+                                    Utilities.Utilities.log.Error(Utilities.Utilities.GetExceptionMessage(e));
                                 }
                             }
                                 
@@ -113,6 +115,7 @@ namespace PlayerConfigSelection
                 }
 
             }
+            Utilities.Utilities.log.Info("leaving UpdateFileExtension()");
             return _return;
         }
     }
