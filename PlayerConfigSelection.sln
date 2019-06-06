@@ -1,13 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+# Visual Studio 15
+VisualStudioVersion = 15.0.27703.2026
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlayerConfigSelection", "PlayerConfigSelection\PlayerConfigSelection.csproj", "{2CC1E8B4-F849-404B-9A9C-E315634255C7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConfigSelection", "ConfigSelection\ConfigSelection.csproj", "{B1DEE561-323D-4AAA-AA4B-507CF1349261}"
-EndProject
-Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "PlayerConfiguration", "PlayerConfiguration\PlayerConfiguration.vdproj", "{BC2638D5-4030-4FA8-89B8-89DA7ECD417C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,10 +21,11 @@ Global
 		{B1DEE561-323D-4AAA-AA4B-507CF1349261}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B1DEE561-323D-4AAA-AA4B-507CF1349261}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B1DEE561-323D-4AAA-AA4B-507CF1349261}.Release|Any CPU.Build.0 = Release|Any CPU
-		{BC2638D5-4030-4FA8-89B8-89DA7ECD417C}.Debug|Any CPU.ActiveCfg = Debug
-		{BC2638D5-4030-4FA8-89B8-89DA7ECD417C}.Release|Any CPU.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {2122A7D6-33CF-46CE-B50A-70CE6CBF86AC}
 	EndGlobalSection
 EndGlobal
