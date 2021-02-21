@@ -86,23 +86,30 @@ namespace PlayerConfigSelection
 
         private void SendCharacterStatus()
         {
-            CharacterSelect cs = new CharacterSelect();
-            cs.CharacterDictionary = new Dictionary<string, CharacterStatus>();
-            for (int i = 0; i < this.checkedListBox1.Items.Count; i++)
+            try
             {
-                cs.CharacterDictionary.Add((string)this.checkedListBox1.Items[i],
-                    new CharacterStatus
-                    {
-                        Hide = checkedListBox1.GetItemCheckState(i) == CheckState.Checked ? false : true,
-                        Name = (string)this.checkedListBox1.Items[i]
-                    });
+                CharacterSelect cs = new CharacterSelect();
+                cs.CharacterDictionary = new Dictionary<string, CharacterStatus>();
+                for (int i = 0; i < this.checkedListBox1.Items.Count; i++)
+                {
+                    cs.CharacterDictionary.Add((string)this.checkedListBox1.Items[i],
+                        new CharacterStatus
+                        {
+                            Hide = checkedListBox1.GetItemCheckState(i) == CheckState.Checked ? false : true,
+                            Name = (string)this.checkedListBox1.Items[i]
+                        });
+                }
+                foreach (var character in cs.CharacterDictionary)
+                {
+                    Utilities.Utilities.log.Info($"{character.Key} {character.Value.Name} {character.Value.Hide}");
+                }
+
+                cs.UpdateFileExtension();
             }
-            foreach (var character in cs.CharacterDictionary)
+            catch (Exception e)
             {
-                Utilities.Utilities.log.Info($"{character.Key} {character.Value.Name} {character.Value.Hide}");
+                Utilities.Utilities.log.Error(Utilities.Utilities.GetExceptionMessage(e));
             }
-           
-            cs.UpdateFileExtension(); 
         }
 
         private void backgroundWorker1_DoWork(object sender, DoWorkEventArgs e)

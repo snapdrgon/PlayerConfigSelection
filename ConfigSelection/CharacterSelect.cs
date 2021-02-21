@@ -45,24 +45,31 @@ namespace PlayerConfigSelection
             var fileList = DirectoryList;
             List<string> charReturn = new List<string>();
             CharacterDictionary = new Dictionary<string, CharacterStatus>();
-            foreach (var character in fileList)
+            try
             {
-                string fileName = Path.GetFileName(character);
-                string fileExt = Path.GetExtension(character).ToUpper();
-                bool validSkyrimFile = fileExt.Contains(".ESS") || fileExt.Contains(".SKSE") || fileExt.Contains(".TAZ");
-                if (!fileName.ToUpper().Contains(AutoSave))
+                foreach (var character in fileList)
                 {
-                    string[] shortName = fileName.Split(' ');
-                    if (shortName.Count() > 3 && validSkyrimFile && !charReturn.Contains(shortName[3], StringComparer.OrdinalIgnoreCase))
+                    string fileName = Path.GetFileName(character);
+                    string fileExt = Path.GetExtension(character).ToUpper();
+                    bool validSkyrimFile = fileExt.Contains(".ESS") || fileExt.Contains(".SKSE") || fileExt.Contains(".TAZ");
+                    if (!fileName.ToUpper().Contains(AutoSave))
                     {
-                        charReturn.Add(shortName[3]);
-                        CharacterDictionary.Add(shortName[3], new CharacterStatus { Name= shortName[3] , Hide= fileExt.Contains(".TAZ") });
+                        string[] shortName = fileName.Split(' ');
+                        if (shortName.Count() > 3 && validSkyrimFile && !charReturn.Contains(shortName[3], StringComparer.OrdinalIgnoreCase))
+                        {
+                            charReturn.Add(shortName[3]);
+                            CharacterDictionary.Add(shortName[3], new CharacterStatus { Name= shortName[3] , Hide= fileExt.Contains(".TAZ") });
+                        }
                     }
                 }
+                charReturn.Sort(); //sort and bale
+                charReturn.Insert(0, AllCharacters);
             }
-            charReturn.Sort(); //sort and bale
-            charReturn.Insert(0, AllCharacters);
-            //return charReturn;
+            catch (Exception e)
+            {
+                Utilities.Utilities.log.Error(Utilities.Utilities.GetExceptionMessage(e));
+            }
+             //return charReturn;
             return CharacterDictionary;
         }
 
@@ -89,8 +96,19 @@ namespace PlayerConfigSelection
                             {
                                 try
                                 {
-                                    File.Move(fileNotUpperCase, $"{fileNotUpperCase}{HiddenExtension}");
-                                    Utilities.Utilities.log.Info($"Renamed {fileNotUpperCase} to {fileNotUpperCase}{HiddenExtension}");
+                                    var fileNameOriginal = fileNotUpperCase;
+                                    var fileNameNew = $"{fileNotUpperCase}{HiddenExtension}";
+                                    if (!FileEquals(fileNameOriginal, fileNameNew))
+                                    {
+                                        File.Move(fileNameOriginal, fileNameNew);
+                                        Utilities.Utilities.log.Info($"Renamed {fileNameOriginal} to {fileNameNew}");
+                                    }
+                                    else
+                                    {
+                                        File.Delete(fileNameOriginal);
+                                        Utilities.Utilities.log.Info($"Deleted {fileNameOriginal}");
+
+                                    }
                                 }
                                 catch (Exception e)
                                 {
@@ -120,5 +138,35 @@ namespace PlayerConfigSelection
             Utilities.Utilities.log.Info("leaving UpdateFileExtension()");
             return _return;
         }
+
+        bool FileEquals(string path1, string path2)
+        {
+            bool returnFlag = false;
+            try
+            {
+               byte[] file1 = File.ReadAllBytes(path1);
+                byte[] file2 = File.ReadAllBytes(path2);
+                if (file1.Length == file2.Length)
+                {
+                    for (int i = 0; i < file1.Length; i++)
+                    {
+                        if (file1[i] != file2[i])
+                        {
+                            returnFlag = false;
+                        }
+                    }
+                    returnFlag = true;
+                }
+                else
+                {
+                    returnFlag = false;
+                }
+            }
+            catch (Exception)
+            {
+                returnFlag = false;
+            }
+            return returnFlag;
+         }
     }
 }
