@@ -89,10 +89,12 @@ namespace PlayerConfigSelection
                             {
                                 try
                                 {
-                                    File.Move(fileNotUpperCase, string.Format("{0}{1}", fileNotUpperCase, HiddenExtension));
+                                    File.Move(fileNotUpperCase, $"{fileNotUpperCase}{HiddenExtension}");
+                                    Utilities.Utilities.log.Info($"Renamed {fileNotUpperCase} to {fileNotUpperCase}{HiddenExtension}");
                                 }
-                                catch (Exception)
+                                catch (Exception e)
                                 {
+                                    Utilities.Utilities.log.Error(Utilities.Utilities.GetExceptionMessage(e));
                                 }
                             }
                         }
