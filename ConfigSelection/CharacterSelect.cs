@@ -82,7 +82,8 @@ namespace PlayerConfigSelection
             foreach (var item in CharacterDictionary)
             {
                 CharacterStatus charStatus = item.Value;
-                var charFiles = fileList.Where(p => p.Contains(charStatus.Name.ToUpper())).ToList(); //grab all the files associated with the character
+                var paddedCharacterName = $" {charStatus.Name.ToUpper()} ";
+                var charFiles = fileList.Where(p => p.Contains(paddedCharacterName)).ToList(); //grab all the files associated with the character
                 foreach (var file in charFiles) //update all the files
                 {
                     string fileExt = Path.GetExtension(file);
